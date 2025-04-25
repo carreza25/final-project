@@ -1,0 +1,21 @@
+ 
+  body.happy {
+    background-color: #fff59d;
+  }
+  
+  body.sad {
+    background-color: #90caf9;
+  }
+  
+  body.peaceful {
+    background-color: #ce93d8;
+  }
+  
+  body.anxious {
+    background-color: #ffcc80;
+  }
+  
+  body.angry {
+    background-color: #f48fb1;
+  }
+  

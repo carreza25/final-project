@@ -3,30 +3,24 @@
 namespace app\models;
 
 abstract class Model {
+  protected string $table;
 
-    public function findAll() {
-        $query = "select * from $this->table";
-        return $this->query($query);
+  private function connect() {
+    $string = "mysql:host=" . DBHOST . ";dbname=" . DBNAME;
+    return new \PDO($string, DBUSER, DBPASS);
+  }
+
+  public function query($query, $data = []) {
+    $con = $this->connect();
+    $stm = $con->prepare($query);
+    $success = $stm->execute($data);
+
+    if (stripos(trim($query), 'SELECT') === 0) {
+        return $stm->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    private function connect() {
-        $string = "mysql:hostname=" . DBHOST . ";dbname=" . DBNAME;
-        $con = new \PDO($string, DBUSER, DBPASS);
-        return $con;
-    }
+    return $success;
+}
 
-    public function query($query, $data = []) {
-        $con = $this->connect();
-        $stm = $con->prepare($query);
-        $check = $stm->execute($data);
-        if ($check) {
-            //return as an associated array
-            $result = $stm->fetchAll(\PDO::FETCH_ASSOC);
-            if (is_array($result) && count($result)) {
-                return $result;
-            }
-        }
-        return false;
-    }
 
 }

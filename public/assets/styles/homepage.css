@@ -1,3 +1,42 @@
-p {
-    color: blue;
-}
+
+  .mood-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .mood-button {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+  }
+  
+  .mood-button.happy {
+    background-color: #fdd835;
+  }
+  
+  .mood-button.sad {
+    background-color: #42a5f5;
+  }
+  
+  .mood-button.peaceful {
+    background-color: #ab47bc;
+  }
+  
+  .mood-button.anxious {
+    background-color: #ffa726;
+  }
+  
+  .mood-button.angry {
+    background-color: #ec407a;
+  }
+  
+  .mood-button:hover {
+    opacity: 0.85;
+  }

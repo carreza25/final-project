@@ -1,12 +1,110 @@
-<html>
-    <head>
-        <!-- remember to route relative to index.php  -->
-        <script type="text/javascript" src="./assets/js/homepage.js"></script>
-        <link rel="stylesheet" href="./assets/styles/homepage.css">
-    </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeToMe</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <body>
-        <p>homepage!</p>
-    </body>
+  <style>
+    body {
+      margin: 0;
+      height: auto;
+      background: linear-gradient(45deg, #f9a825, #1976d2, #8e24aa, #ad1457, #ef6c00);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      color: white;
+
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: white;
+    }
+
+    .navbar-custom .nav-link:hover {
+      color: #cfd8dc;
+    }
+
+    .navbar-toggler {
+      border: 2px solid white;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+
+    .container {
+      padding-top: 60px;
+      text-align: center;
+    }
+
+    .container h1 {
+      font-weight: bold;
+      font-size: 50px;
+      margin-bottom: 40px;
+    }
+
+    .container p {
+      padding: 30px;
+      font-size: 20px;
+    }
+
+    .btn-custom {
+      padding: 15px 30px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      font-size: 1.2rem;
+      background-color: white;
+      color: black;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-custom:hover {
+      background-color: #cfd8dc;
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar sticky-top navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">TypeToMe</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/view-entries">Past Journal Entries</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Welcome to TypeToMe</h1>
+    <h3>Hello, friend!</h3>
+    <p> 
+        TypeToMe is an anonymous, virtual journal that supports your mental health journey through the power of expression. Whether you're feeling joyful, overwhelmed, or just need a quiet moment with your thoughts, TypeToMe invites you to type freely and without judgment. Please take some time to breathe, reflect, and process your emotions.</p>
+    <h3>Your feelings matter. Your story matters. And this is your space to share it.</h3>
+    <a href="/entry" class="btn btn-custom">Create a New Entry</a>
+  </div>
+
+</body>
 </html>
-

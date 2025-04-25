@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New Journal Entry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: #f7f7f7;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    }
+
+    .card-happy { background-color: #fff59d; }
+    .card-sad { background-color: #90caf9; }
+    .card-peaceful { background-color: #ce93d8; }
+    .card-anxious { background-color: #ffcc80; }
+    .card-angry { background-color: #f48fb1; }
+
+    .card-happy:hover { background-color: #fff9c4; }
+    .card-sad:hover { background-color: #bbdefb; }
+    .card-peaceful:hover { background-color: #e1bee7; }
+    .card-anxious:hover { background-color: #ffe0b2; }
+    .card-angry:hover { background-color: #f8bbd0; }
+
+    .mood-button {
+      margin: 5px;
+      border: 2px solid transparent;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .card-happy.active { border-color: #fbc02d; }
+    .card-sad.active { border-color: #42a5f5; }
+    .card-peaceful.active { border-color: #ab47bc; }
+    .card-anxious.active { border-color: #ffa726; }
+    .card-angry.active { border-color: #ec407a; }
+
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: black;
+    }
+
+    .navbar-custom .nav-link:hover {
+      color: #777777;
+    }
+
+    .container {
+      padding-top: 60px;
+    }
+
+    h2 {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar sticky-top navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">TypeToMe</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/view-entries">Past Journal Entries</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Create a New Journal Entry</h2>
+
+    <form id="journalForm">
+      <div class="mb-4 text-center">
+        <label class="form-label d-block">How do you feel?</label>
+
+        <button type="button" class="btn card-happy mood-button" data-mood="Happy">Happy</button>
+        <button type="button" class="btn card-sad mood-button" data-mood="Sad">Sad</button>
+        <button type="button" class="btn card-peaceful mood-button" data-mood="Peaceful">Peaceful</button>
+        <button type="button" class="btn card-anxious mood-button" data-mood="Anxious">Anxious</button>
+        <button type="button" class="btn card-angry mood-button" data-mood="Angry">Angry</button>
+      </div>
+
+      <input type="hidden" id="mood" name="mood">
+
+      <div class="mb-3">
+        <label for="entry" class="form-label">Whenever you're ready...</label>
+        <textarea class="form-control" id="entry" name="entry" rows="5" required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-success">Submit</button>
+
+      <div id="feedback" class="mt-3"></div>
+    </form>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      const backgroundColors = {
+        Happy: '#fff9c4',
+        Sad: '#bbdefb',
+        Peaceful: '#e1bee7',
+        Anxious: '#ffe0b2',
+        Angry: '#f8bbd0'
+      };
+
+      const buttonBaseColors = {
+        Happy: '#fff59d',
+        Sad: '#90caf9',
+        Peaceful: '#ce93d8',
+        Anxious: '#ffcc80',
+        Angry: '#f48fb1'
+      };
+
+      $('button[data-mood]').on('click', function () {
+        $('button[data-mood]').removeClass('active').each(function () {
+          const resetMood = $(this).data('mood');
+          $(this).css('background-color', buttonBaseColors[resetMood]);
+        });
+
+        $(this).addClass('active');
+
+        const mood = $(this).data('mood');
+        $('#mood').val(mood);
+        $('#feedback').html(`<div class="alert alert-info">You're feeling: ${mood}</div>`);
+
+        $('body').css('background-color', backgroundColors[mood]);
+      });
+
+      $('button[data-mood]').hover(function () {
+        const mood = $(this).data('mood');
+        $(this).css('background-color', backgroundColors[mood]);
+      }, function () {
+        const mood = $(this).data('mood');
+        if (!$(this).hasClass('active')) {
+          $(this).css('background-color', buttonBaseColors[mood]);
+        }
+      });
+
+      $('#journalForm').on('submit', function (e) {
+        e.preventDefault();
+
+        const data = {
+          mood: $('#mood').val(),
+          entry: $('#entry').val(),
+        };
+
+        if (!data.mood) {
+          $('#feedback').html('<div class="alert alert-danger">Please select a mood.</div>');
+          return;
+        }
+
+        $.ajax({
+          url: '/api/entry',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          success: function () {
+            $('#feedback').html('<div class="alert alert-success">Entry saved! Redirecting...</div>');
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 2000);
+          },
+          error: function (xhr) {
+            const msg = xhr.responseJSON?.error || 'Something went wrong.';
+            $('#feedback').html(`<div class="alert alert-danger">${msg}</div>`);
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
